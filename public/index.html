@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grindr 2.0</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <span class="nav-brand">⬡ Grindr 2.0</span>
+    <a href="#" class="nav-link auth-only hidden" data-page="wall">Zeď</a>
+    <a href="#" class="nav-link auth-only hidden" data-page="users">Uživatelé</a>
+    <a href="#" class="nav-link guest-only" data-page="login">Přihlásit</a>
+    <a href="#" class="nav-link btn-accent guest-only" data-page="register">Registrace</a>
+    <button class="btn btn-secondary btn-sm auth-only hidden" id="logout-btn">Odhlásit</button>
+  </div>
+</nav>
+
+<div id="toast"></div>
+
+<!-- LOGIN PAGE -->
+<div class="page" id="page-login">
+  <div class="auth-wrap">
+    <div class="card">
+      <div class="auth-title">Přihlášení</div>
+      <div class="auth-sub">Vítej zpátky!</div>
+      <div class="error-msg" id="login-error"></div>
+      <div class="form-group">
+        <label>Uživatelské jméno</label>
+        <input type="text" id="login-username" placeholder="tvoje_jmeno" autocomplete="username">
+      </div>
+      <div class="form-group">
+        <label>Heslo</label>
+        <input type="password" id="login-password" placeholder="••••••••" autocomplete="current-password">
+      </div>
+      <button class="btn btn-primary btn-full" id="login-btn">Přihlásit se</button>
+      <div class="auth-switch">
+        Nemáš účet? <a href="#" data-page="register">Zaregistruj se</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- REGISTER PAGE -->
+<div class="page" id="page-register">
+  <div class="auth-wrap" style="max-width:480px">
+    <div class="card">
+      <div class="auth-title">Registrace</div>
+      <div class="auth-sub">Vytvoř si nový účet</div>
+      <div class="error-msg" id="register-error"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div class="form-group">
+          <label>Jméno</label>
+          <input type="text" id="reg-first_name" placeholder="Jan">
+        </div>
+        <div class="form-group">
+          <label>Příjmení</label>
+          <input type="text" id="reg-last_name" placeholder="Novák">
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div class="form-group">
+          <label>Věk</label>
+          <input type="number" id="reg-age" placeholder="18" min="1" max="120">
+        </div>
+        <div class="form-group">
+          <label>Pohlaví</label>
+          <select id="reg-gender">
+            <option value="">-- vyber --</option>
+            <option value="muž">Muž</option>
+            <option value="žena">Žena</option>
+            <option value="jiné">Jiné</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Uživatelské jméno</label>
+        <input type="text" id="reg-username" placeholder="tvoje_jmeno">
+      </div>
+      <div class="form-group">
+        <label>Heslo</label>
+        <input type="password" id="reg-password" placeholder="••••••••">
+      </div>
+      <div class="form-group">
+        <label>Profilová fotografie (volitelné)</label>
+        <label class="file-input-label">
+          📷 <span id="photo-label">Vyber fotografii...</span>
+          <input type="file" id="reg-photo" accept="image/*">
+        </label>
+      </div>
+      <button class="btn btn-primary btn-full" id="register-btn">Zaregistrovat se</button>
+      <div class="auth-switch">
+        Máš účet? <a href="#" data-page="login">Přihlas se</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- WALL PAGE -->
+<div class="page" id="page-wall">
+  <main>
+    <div class="two-col">
+      <!-- FEED -->
+      <div>
+        <div id="posts-list">
+          <div class="loader">Načítám příspěvky...</div>
+        </div>
+      </div>
+      <!-- NEW POST SIDEBAR -->
+      <div>
+        <div class="card" style="position:sticky;top:76px">
+          <div class="card-title">Nový příspěvek</div>
+          <div class="form-group">
+            <label>Nadpis</label>
+            <input type="text" id="post-title" placeholder="Co se děje?">
+          </div>
+          <div class="form-group">
+            <label>Text</label>
+            <textarea id="post-body" placeholder="Napiš něco..."></textarea>
+          </div>
+          <div class="form-group">
+            <label>Obrázek (volitelné)</label>
+            <label class="file-input-label">
+              🖼️ <span id="post-photo-label">Přidat obrázek...</span>
+              <input type="file" id="post-image" accept="image/*">
+            </label>
+          </div>
+          <button class="btn btn-primary btn-full" id="submit-post">Zveřejnit</button>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- USERS PAGE -->
+<div class="page" id="page-users">
+  <main>
+    <div style="margin-bottom:20px">
+      <div class="auth-title" style="font-size:22px">Uživatelé</div>
+    </div>
+    <div class="users-grid" id="users-list">
+      <div class="loader">Načítám uživatele...</div>
+    </div>
+  </main>
+</div>
+
+<!-- USER DETAIL PAGE -->
+<div class="page" id="page-user">
+  <main>
+    <a href="#" data-page="users" style="color:var(--text-muted);font-size:13px;display:inline-flex;align-items:center;gap:4px;margin-bottom:16px">← Zpět na uživatele</a>
+    <div id="user-detail-content">
+      <div class="loader">Načítám profil...</div>
+    </div>
+  </main>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
